@@ -1,13 +1,13 @@
 package com.decockwgu196.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.wgu196final.model.Assessment;
-import com.example.wgu196final.model.Term;
+import com.decockwgu196.model.Assessment;
 
 import java.util.List;
 
@@ -20,10 +20,15 @@ public interface AssessmentDao {
     @Update
     void update(Assessment assessment);
 
-    @Query("SELECT * FROM assessment_table WHERE course_id = :term")
-    List<Assessment> getAssessmentsByTerm(Term term);
+    @Query("SELECT * FROM assessment_table WHERE course_id = :id")
+    List<Assessment> getAssessmentsByCourses(int id);
+
+    @Query("SELECT * FROM assessment_table ORDER BY id")
+    LiveData<List<Assessment>> getAllAssessments();
 
     @Delete
-    void delete();
+    void delete(Assessment assessment);
 
+    @Query("SELECT * FROM assessment_table WHERE assessment_table.id == :id")
+    LiveData<Assessment> get(int id);
 }

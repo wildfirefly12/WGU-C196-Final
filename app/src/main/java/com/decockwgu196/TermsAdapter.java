@@ -1,4 +1,4 @@
-package com.decockwgu196.adapter;
+package com.decockwgu196;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,13 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.decockwgu196.R;
-import com.example.wgu196final.model.Term;
+import com.decockwgu196.model.Term;
 
 import java.util.List;
 import java.util.Objects;
 
-public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder>{
+public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> {
     private  OnTermClickListener termClickListener;
     private List<Term> termList;
     private Context context;
@@ -30,7 +29,7 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.term_listitem, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.term_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view, termClickListener);
         return holder;
     }

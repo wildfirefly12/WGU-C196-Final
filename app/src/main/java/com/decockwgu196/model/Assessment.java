@@ -1,4 +1,4 @@
-package com.example.wgu196final.model;
+package com.decockwgu196.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -7,20 +7,33 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "assessment_table")
 public class Assessment {
     @PrimaryKey(autoGenerate = true)
-    private int assessmentId;
+    private int id;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "start_date")
     private String startDate;
+
+    @ColumnInfo(name = "end_date")
     private String endDate;
 
     @ColumnInfo(name = "course_id")
     private int courseId;
 
-    public int getAssessmentId() {
-        return assessmentId;
+    public Assessment(String title, String startDate, String endDate, int courseId) {
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.courseId = courseId;
     }
 
-    public void setAssessmentId(int assessmentId) {
-        this.assessmentId = assessmentId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.wgu196final.model.Term;
+import com.decockwgu196.model.Term;
 
 import java.util.List;
 

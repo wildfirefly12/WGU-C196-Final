@@ -1,4 +1,4 @@
-package com.example.wgu196final.model;
+package com.decockwgu196.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

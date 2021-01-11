@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.decockwgu196.database.CourseRepository;
-import com.example.wgu196final.model.Course;
 
 import java.util.List;
 

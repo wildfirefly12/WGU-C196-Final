@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.decockwgu196.database.TermRepository;
-import com.example.wgu196final.model.Term;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ public class TermViewModel extends AndroidViewModel {
         super(application);
         repository = new TermRepository(application);
         allTerms = repository.getAllData();
+        System.out.println(allTerms);
     }
 
     public LiveData<List<Term>> getAllTerms(){

@@ -13,8 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.decockwgu196.model.Term;
 import com.decockwgu196.model.TermViewModel;
-import com.example.wgu196final.model.Term;
 
 import java.util.Calendar;
 
@@ -32,7 +32,7 @@ public class UpdateTermActivity extends AppCompatActivity {
     private int month;
     private int year;
 
-    private int id;//term id
+    private int id;//term courseId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

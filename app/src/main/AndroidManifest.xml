@@ -9,16 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WGU196">
-        <activity android:name=".UpdateTermActivity"></activity>
-        <activity android:name=".NewCourseActivity" />
-
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
-
-        <activity android:name=".TermViewActivity" />
-        <activity android:name=".NewTermActivity" />
-        <activity android:name=".TermsActivity" />
+        <activity android:name=".CourseViewActivity"></activity>
+        <activity android:name=".UpdateTermActivity" />
+        <activity
+            android:name=".NewCourseActivity"
+            android:parentActivityName=".TermViewActivity" />
+        <activity
+            android:name=".TermViewActivity"
+            android:parentActivityName=".TermsActivity" />
+        <activity
+            android:name=".NewTermActivity"
+            android:parentActivityName=".TermsActivity" />
+        <activity
+            android:name=".TermsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

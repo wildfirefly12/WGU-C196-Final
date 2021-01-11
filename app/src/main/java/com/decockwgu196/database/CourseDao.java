@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.wgu196final.model.Course;
+import com.decockwgu196.model.Course;
 
 import java.util.List;
 
@@ -19,15 +19,15 @@ public interface CourseDao {
     @Update
     void update(Course course);
 
-    @Query("SELECT * FROM course_table ORDER BY id")
+    @Query("SELECT * FROM course_table ORDER BY courseId")
     LiveData<List<Course>> getAllCourses();
 
-    @Query("SELECT * FROM course_table WHERE course_table.term_id == :id")
+    @Query("SELECT * FROM course_table WHERE course_table.term_id == :id ORDER BY courseId")
     LiveData<List<Course>> getCoursesByTerm(int id);
 
     @Delete()
     void delete(Course course);
 
-    @Query("SELECT * FROM course_table WHERE course_table.id == :id")
+    @Query("SELECT * FROM course_table WHERE course_table.courseId == :id")
     LiveData<Course> get(int id);
 }

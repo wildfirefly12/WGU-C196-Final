@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.wgu196final.model.Term;
+import com.decockwgu196.model.Term;
 
 import java.util.List;
 

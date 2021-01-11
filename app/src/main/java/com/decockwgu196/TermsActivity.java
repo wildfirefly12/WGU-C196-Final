@@ -11,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.decockwgu196.adapter.TermsAdapter;
 import com.decockwgu196.model.TermViewModel;
-import com.example.wgu196final.model.Term;
+import com.decockwgu196.model.Term;
 
 import java.util.Objects;
 
@@ -38,11 +37,9 @@ public class TermsActivity extends AppCompatActivity implements TermsAdapter.OnT
                 .create(TermViewModel.class);
 
         termViewModel.getAllTerms().observe(this, terms -> {
-
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             termsAdapter = new TermsAdapter(terms, TermsActivity.this, this);
             recyclerView.setAdapter(termsAdapter);
-
         });
 
     }

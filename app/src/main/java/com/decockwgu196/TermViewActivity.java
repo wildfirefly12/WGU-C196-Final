@@ -13,9 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.decockwgu196.adapter.CourseAdapter;
+import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
 import com.decockwgu196.model.TermViewModel;
+
+import java.util.ArrayList;
 
 import static com.decockwgu196.UpdateTermActivity.FLAG;
 
@@ -28,12 +30,14 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
     Button addCourseBtn;
     RecyclerView recyclerView;
 
-    private CourseAdapter courseAdapter;
-
-    int id; //term id from TermListView
+    private ArrayList<Course> filteredCourses = new ArrayList<>();
 
     private CourseViewModel courseViewModel;
     private TermViewModel termViewModel;
+
+    private CourseAdapter courseAdapter;
+
+    int termId; //term courseId from TermListView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
         startDate = findViewById(R.id.termView_startDate);
         endDate = findViewById(R.id.termView_endDate);
 
-        recyclerView = findViewById(R.id.termView_courseList);
+        recyclerView = findViewById(R.id.term_view_course_list);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -57,22 +61,22 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
 
         if(data != null){
             if(previousActivity == "update"){
-                id = data.getInt(UpdateTermActivity.TERM_ID);
-                termViewModel.get(id).observe(this, term -> {
+                termId = data.getInt(UpdateTermActivity.TERM_ID);
+                termViewModel.get(termId).observe(this, term -> {
                     title.setText(term.getTitle());
                     startDate.setText(term.getStartDate());
                     endDate.setText(term.getEndDate());
                 });
             } else if(previousActivity == "terms"){
-                id = data.getInt(TermsActivity.TERM_ID);
-                termViewModel.get(id).observe(this, term -> {
+                termId = data.getInt(TermsActivity.TERM_ID);
+                termViewModel.get(termId).observe(this, term -> {
                     title.setText(term.getTitle());
                     startDate.setText(term.getStartDate());
                     endDate.setText(term.getEndDate());
                 });
             } else {
-                id = data.getInt(NewCourseActivity.TERM_ID);
-                termViewModel.get(id).observe(this, term -> {
+                termId = data.getInt(NewCourseActivity.TERM_ID);
+                termViewModel.get(termId).observe(this, term -> {
                     title.setText(term.getTitle());
                     startDate.setText(term.getStartDate());
                     endDate.setText(term.getEndDate());
@@ -84,24 +88,27 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
                 .getApplication())
                 .create(CourseViewModel.class);
 
-
-        courseViewModel.getCoursesByTerm(id).observe(this, courses -> {
+        courseViewModel.getAllCourses().observe(this, courses -> {
+            for(Course course : courses){
+                if(course.getTermId() == termId){
+                    filteredCourses.add(course);
+                }
+            }
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            courseAdapter = new CourseAdapter(courses, TermViewActivity.this, this);
+            courseAdapter = new CourseAdapter(filteredCourses, TermViewActivity.this, this);
             recyclerView.setAdapter(courseAdapter);
         });
-
     }
 
     public void addCourseButton(View view){
         Intent intent = new Intent(this, NewCourseActivity.class);
-        intent.putExtra(TERM_ID, id);
+        intent.putExtra(TERM_ID, termId);
         startActivity(intent);
     }
 
     public void editTermButton(View view){
         Intent intent = new Intent(this, UpdateTermActivity.class);
-        intent.putExtra(TERM_ID, id);
+        intent.putExtra(TERM_ID, termId);
         startActivity(intent);
     }
 
@@ -118,6 +125,13 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
 
     @Override
     public void onCourseClick(int position) {
+        Course course = filteredCourses.get(position);
+        System.out.println(course.getCourseId());
+
+        Intent intent = new Intent(this, CourseViewActivity.class);
+        intent.putExtra("courseId", course.getCourseId());
+        intent.putExtra(FLAG, "courses");
+        startActivity(intent);
 
     }
 }

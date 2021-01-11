@@ -7,10 +7,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.wgu196final.model.Assessment;
-import com.example.wgu196final.model.Course;
-import com.example.wgu196final.model.Note;
-import com.example.wgu196final.model.Term;
+import com.decockwgu196.model.Assessment;
+import com.decockwgu196.model.Course;
+import com.decockwgu196.model.Note;
+import com.decockwgu196.model.Term;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +20,7 @@ public abstract class Database extends RoomDatabase {
 
     public abstract TermDao termDao();
     public abstract CourseDao courseDao();
+    public abstract AssessmentDao assessmentDao();
 
     public static final int NUMBER_OF_THREADS = 4;
 
@@ -50,13 +51,16 @@ public abstract class Database extends RoomDatabase {
 
                     databaseWriteExecutor.execute(() -> {
                         TermDao termDao = INSTANCE.termDao();
-
                         Term term = new Term("Test", "test", "test");
                         termDao.insert(term);
 
                         CourseDao courseDao = INSTANCE.courseDao();
                         Course course = new Course("Test", "test", "Test", "test", "test", "test", "test", 1);
                         courseDao.insert(course);
+
+                        AssessmentDao assessmentDao = INSTANCE.assessmentDao();
+                        Assessment assessment = new Assessment("test", "test", "test", 1);
+                        assessmentDao.insert(assessment);
                     });
                 }
             };

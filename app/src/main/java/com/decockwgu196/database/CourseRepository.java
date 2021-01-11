@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.wgu196final.model.Course;
+import com.decockwgu196.model.Course;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ public class CourseRepository {
         courseDao = db.courseDao();
 
         allCourses = courseDao.getAllCourses();
+        System.out.println(allCourses);
     }
 
     public LiveData<List<Course>> getAllData(){

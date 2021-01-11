@@ -19,9 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
 import com.decockwgu196.model.TermViewModel;
-import com.example.wgu196final.model.Course;
 
 import java.util.Calendar;
 

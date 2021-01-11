@@ -1,4 +1,4 @@
-package com.decockwgu196.adapter;
+package com.decockwgu196;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.decockwgu196.R;
-import com.example.wgu196final.model.Course;
+import com.decockwgu196.model.Course;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,15 +22,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private Context context;
 
     public CourseAdapter(List<Course> courseList, Context context, OnCourseClickListener courseClickListener) {
-        this.courseClickListener = courseClickListener;
         this.courseList = courseList;
         this.context = context;
+        this.courseClickListener = courseClickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate((R.layout.course_listitem), parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate((R.layout.course_list_item), parent, false);
         ViewHolder holder = new ViewHolder(view, courseClickListener);
         return holder;
     }
@@ -41,7 +40,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Course course = Objects.requireNonNull(courseList.get(position));
 
         holder.title.setText(course.getTitle());
-        holder.startDate.setText((course.getStartDate()));
+        holder.startDate.setText(course.getStartDate());
         holder.endDate.setText(course.getEndDate());
         holder.status.setText(course.getStatus());
     }
@@ -67,6 +66,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             startDate = itemView.findViewById(R.id.courseStartDateText);
             endDate = itemView.findViewById(R.id.courseEndDateText);
             status = itemView.findViewById(R.id.courseStatus);
+            courseList = itemView.findViewById(R.id.termView_courseList);
 
             this.onCourseClickListener = onCourseClickListener;
 
@@ -80,7 +80,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
 
-    public interface  OnCourseClickListener{
+    public interface OnCourseClickListener{
         void onCourseClick(int position);
     }
 }
