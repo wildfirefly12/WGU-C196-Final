@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidDomInspection -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/note_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp">
+
+    <TextView
+        android:id="@+id/note_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/note_view_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/note_view_title"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="380dp"
+        android:layout_height="1dp"
+        android:layout_below="@+id/termStartDateText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/listDivider" />
+
+</RelativeLayout>

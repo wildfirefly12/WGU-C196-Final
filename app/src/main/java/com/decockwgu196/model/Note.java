@@ -1,22 +1,43 @@
 package com.decockwgu196.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "notes")
+@Entity(tableName = "note_table")
 public class Note {
     @PrimaryKey(autoGenerate = true)
-    private int noteId;
-    private String text;
-    private int classId;
-    private int assessmentId;
+    private int id;
 
-    public int getNoteId() {
-        return noteId;
+    @ColumnInfo(name = "title")
+    private String title;
+
+    @ColumnInfo(name = "text")
+    private String text;
+
+    @ColumnInfo
+    private int courseId;
+
+    public Note(String title, String text, int courseId) {
+        this.title = title;
+        this.text = text;
+        this.courseId = courseId;
     }
 
-    public void setNoteId(int noteId) {
-        this.noteId = noteId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getText() {
@@ -27,19 +48,12 @@ public class Note {
         this.text = text;
     }
 
-    public int getClassId() {
-        return classId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setClassId(int classId) {
-        this.classId = classId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
-    public int getAssessmentId() {
-        return assessmentId;
-    }
-
-    public void setAssessmentId(int assessmentId) {
-        this.assessmentId = assessmentId;
-    }
 }

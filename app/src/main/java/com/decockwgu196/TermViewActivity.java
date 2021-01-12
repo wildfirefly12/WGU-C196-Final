@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.decockwgu196.adapter.CourseAdapter;
 import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
 import com.decockwgu196.model.TermViewModel;
@@ -68,7 +69,7 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
                     endDate.setText(term.getEndDate());
                 });
             } else if(previousActivity == "terms"){
-                termId = data.getInt(TermsActivity.TERM_ID);
+                termId = data.getInt(TermListActivity.TERM_ID);
                 termViewModel.get(termId).observe(this, term -> {
                     title.setText(term.getTitle());
                     startDate.setText(term.getStartDate());

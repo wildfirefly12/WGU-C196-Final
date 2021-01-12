@@ -21,6 +21,7 @@ public abstract class Database extends RoomDatabase {
     public abstract TermDao termDao();
     public abstract CourseDao courseDao();
     public abstract AssessmentDao assessmentDao();
+    public abstract NoteDao noteDao();
 
     public static final int NUMBER_OF_THREADS = 4;
 
@@ -61,6 +62,10 @@ public abstract class Database extends RoomDatabase {
                         AssessmentDao assessmentDao = INSTANCE.assessmentDao();
                         Assessment assessment = new Assessment("test", "test", "test", 1);
                         assessmentDao.insert(assessment);
+
+                        NoteDao noteDao = INSTANCE.noteDao();
+                        Note note = new Note("test", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1);
+                        noteDao.insert(note);
                     });
                 }
             };

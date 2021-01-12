@@ -82,7 +82,7 @@ public class NewTermActivity extends AppCompatActivity {
             } else {
                 Term term = new Term(title.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
                 TermViewModel.insert(term);
-                Intent intent = new Intent(this, TermsActivity.class);
+                Intent intent = new Intent(this, TermListActivity.class);
                 startActivity(intent);
             }
         });

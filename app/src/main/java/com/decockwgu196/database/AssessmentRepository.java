@@ -23,9 +23,6 @@ public class AssessmentRepository {
         return allAssessments;
     }
 
-//    public LiveData<List<Course>> getCoursesByTerm(int courseId){
-//        return assessmentDao.getAssessmentsByCourses(courseId);
-//    }
 
     public void insert(Assessment assessment){
         Database.databaseWriteExecutor.execute(() -> {

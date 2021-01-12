@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void allTermsButton(View view){
-        Intent intent = new Intent(this, TermsActivity.class);
+        Intent intent = new Intent(this, TermListActivity.class);
         startActivity(intent);
     }
 

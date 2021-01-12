@@ -9,19 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WGU196">
-        <activity android:name=".CourseViewActivity"></activity>
+        <activity android:name=".NoteListActivity"></activity>
+        <activity android:name=".CourseViewActivity" />
         <activity android:name=".UpdateTermActivity" />
         <activity
             android:name=".NewCourseActivity"
             android:parentActivityName=".TermViewActivity" />
         <activity
             android:name=".TermViewActivity"
-            android:parentActivityName=".TermsActivity" />
+            android:parentActivityName=".TermListActivity" />
         <activity
             android:name=".NewTermActivity"
-            android:parentActivityName=".TermsActivity" />
+            android:parentActivityName=".TermListActivity" />
         <activity
-            android:name=".TermsActivity"
+            android:name=".TermListActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

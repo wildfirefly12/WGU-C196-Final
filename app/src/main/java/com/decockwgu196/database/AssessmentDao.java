@@ -20,7 +20,7 @@ public interface AssessmentDao {
     @Update
     void update(Assessment assessment);
 
-    @Query("SELECT * FROM assessment_table WHERE course_id = :id")
+    @Query("SELECT * FROM assessment_table WHERE course_id == :id")
     List<Assessment> getAssessmentsByCourses(int id);
 
     @Query("SELECT * FROM assessment_table ORDER BY id")

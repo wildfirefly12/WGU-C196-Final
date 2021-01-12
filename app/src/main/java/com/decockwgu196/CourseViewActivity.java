@@ -1,6 +1,8 @@
 package com.decockwgu196;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.decockwgu196.adapter.AssessmentAdapter;
 import com.decockwgu196.model.Assessment;
 import com.decockwgu196.model.AssessmentViewModel;
 import com.decockwgu196.model.CourseViewModel;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import static com.decockwgu196.UpdateTermActivity.FLAG;
 
 public class CourseViewActivity extends AppCompatActivity implements AssessmentAdapter.OnAssessmentClickListener {
+    private static final String COURSE_ID = "course_id";
     CourseViewModel courseViewModel;
     AssessmentViewModel assessmentViewModel;
 
@@ -29,7 +33,9 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
     RecyclerView recyclerView;
 
     ArrayList<Assessment> filteredAssessments = new ArrayList<>();
-    int id; //course termId
+
+
+    int id; //course id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,22 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
             assessmentAdapter = new AssessmentAdapter(filteredAssessments, CourseViewActivity.this, this);
             recyclerView.setAdapter(assessmentAdapter);
         });
+
+
+    }
+
+    public void editCourse(){
+
+    }
+
+    public void deleteCourse(){
+
+    }
+
+    public void notes(View view){
+        Intent intent = new Intent(this, NoteListActivity.class);
+        intent.putExtra(COURSE_ID, id);
+        startActivity(intent);
     }
 
     @Override

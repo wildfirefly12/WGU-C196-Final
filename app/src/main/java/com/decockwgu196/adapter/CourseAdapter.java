@@ -1,4 +1,4 @@
-package com.decockwgu196;
+package com.decockwgu196.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.decockwgu196.R;
 import com.decockwgu196.model.Course;
 
 import java.util.List;

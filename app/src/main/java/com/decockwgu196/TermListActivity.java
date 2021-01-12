@@ -11,12 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.decockwgu196.adapter.TermsAdapter;
 import com.decockwgu196.model.TermViewModel;
 import com.decockwgu196.model.Term;
 
 import java.util.Objects;
 
-public class TermsActivity extends AppCompatActivity implements TermsAdapter.OnTermClickListener {
+public class TermListActivity extends AppCompatActivity implements TermsAdapter.OnTermClickListener {
     public static final String TERM_ID = "term_id";
     public static final String FLAG = "flag";
     private TermViewModel termViewModel;
@@ -26,19 +27,19 @@ public class TermsActivity extends AppCompatActivity implements TermsAdapter.OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_terms);
+        setContentView(R.layout.activity_term_list);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.termList);
 
-        termViewModel = new ViewModelProvider.AndroidViewModelFactory(TermsActivity.this
+        termViewModel = new ViewModelProvider.AndroidViewModelFactory(TermListActivity.this
                 .getApplication())
                 .create(TermViewModel.class);
 
         termViewModel.getAllTerms().observe(this, terms -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            termsAdapter = new TermsAdapter(terms, TermsActivity.this, this);
+            termsAdapter = new TermsAdapter(terms, TermListActivity.this, this);
             recyclerView.setAdapter(termsAdapter);
         });
 

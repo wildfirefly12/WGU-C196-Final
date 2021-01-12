@@ -51,17 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/course_view_start_date" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/course_view_add_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
     <TextView
         android:id="@+id/course_view_dash"
         android:layout_width="wrap_content"
@@ -85,8 +74,8 @@
 
     <ScrollView
         android:id="@+id/course_view_assessment_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="411dp"
+        android:layout_height="609dp"
         app:layout_constraintTop_toBottomOf="@+id/assessments_text"
         tools:layout_editor_absoluteX="0dp">
 
@@ -96,23 +85,6 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/course_view_title"
-            tools:layout_editor_absoluteX="0dp" />
-
-    </ScrollView>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/notes_text"
-        tools:layout_editor_absoluteX="0dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/termView_courseList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="true"
-            app:layout_constraintTop_toBottomOf="@+id/course_view_notes"
             tools:layout_editor_absoluteX="0dp" />
 
     </ScrollView>
@@ -139,16 +111,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/course_view_status" />
 
-    <TextView
-        android:id="@+id/notes_text"
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
+        android:onClick="notes"
+        app:layout_constraintStart_toEndOf="@+id/imageButton5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Notes"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_view_assessment_scroll" />
+        android:background="#00FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/course_view_edit"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
