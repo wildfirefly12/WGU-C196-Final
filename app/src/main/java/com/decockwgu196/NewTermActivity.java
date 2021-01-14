@@ -35,10 +35,10 @@ public class NewTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_term);
 
-        title = findViewById(R.id.termTitle);
-        startDate = findViewById(R.id.termStartDate);
-        endDate = findViewById(R.id.termEndDate);
-        addTermBtn = findViewById(R.id.addTermBtn);
+        title = findViewById(R.id.new_term_title);
+        startDate = findViewById(R.id.new_term_start);
+        endDate = findViewById(R.id.new_term_end);
+        addTermBtn = findViewById(R.id.new_term_submit);
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(NewTermActivity.this.getApplication())
                 .create(TermViewModel.class);

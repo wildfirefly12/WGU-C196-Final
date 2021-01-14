@@ -18,10 +18,13 @@ public class Assessment {
     @ColumnInfo(name = "end_date")
     private String endDate;
 
+    @ColumnInfo(name = "type")
+    private String type;
+
     @ColumnInfo(name = "course_id")
     private int courseId;
 
-    public Assessment(String title, String startDate, String endDate, int courseId) {
+    public Assessment(String title, String startDate, String endDate, String type, int courseId) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -58,6 +61,14 @@ public class Assessment {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getCourseId() {

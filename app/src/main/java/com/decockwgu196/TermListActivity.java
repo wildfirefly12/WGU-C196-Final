@@ -31,7 +31,7 @@ public class TermListActivity extends AppCompatActivity implements TermsAdapter.
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = findViewById(R.id.termList);
+        recyclerView = findViewById(R.id.term_list_terms);
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(TermListActivity.this
                 .getApplication())

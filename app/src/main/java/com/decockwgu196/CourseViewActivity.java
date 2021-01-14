@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.decockwgu196.adapter.AssessmentAdapter;
 import com.decockwgu196.model.Assessment;
 import com.decockwgu196.model.AssessmentViewModel;
+import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
 
 import java.util.ArrayList;
 
-import static com.decockwgu196.UpdateTermActivity.FLAG;
 
 public class CourseViewActivity extends AppCompatActivity implements AssessmentAdapter.OnAssessmentClickListener {
     private static final String COURSE_ID = "course_id";
@@ -34,8 +34,8 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
     ArrayList<Assessment> filteredAssessments = new ArrayList<>();
 
-
-    int id; //course id
+    private Course course;
+    private int id; //course courseId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +54,18 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
                 .create(CourseViewModel.class);
 
         Bundle data = getIntent().getExtras();
-        String previousActivity = getIntent().getExtras().getString(FLAG);
-
 
         if(data != null){
-            id = getIntent().getExtras().getInt("courseId");
-            courseViewModel.get(id).observe(this, term -> {
-                title.setText(term.getTitle());
-                start.setText(term.getStartDate());
-                end.setText(term.getEndDate());
-                status.setText(term.getStatus());
+            id = getIntent().getExtras().getInt("course_id");
+            courseViewModel.get(id).observe(this, course -> {
+                title.setText(course.getTitle());
+                start.setText(course.getStartDate());
+                end.setText(course.getEndDate());
+                status.setText(course.getStatus());
+                this.course = course;
             });
         }
+
 
         assessmentViewModel = new ViewModelProvider.AndroidViewModelFactory(CourseViewActivity.this
                 .getApplication())
@@ -85,17 +85,26 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
     }
 
-    public void editCourse(){
-
+    public void editCourse(View view){
+        Intent intent = new Intent(this, UpdateCourseActivity.class);
+        intent.putExtra("course_id", id);
+        intent.putExtra("term_id", course.getTermId());
+        startActivity(intent);
     }
 
-    public void deleteCourse(){
+    public void deleteCourse(View view){
 
     }
 
     public void notes(View view){
         Intent intent = new Intent(this, NoteListActivity.class);
-        intent.putExtra(COURSE_ID, id);
+        intent.putExtra("course_id", id);
+        startActivity(intent);
+    }
+
+    public void addAssessment(View view){
+        Intent intent = new Intent(this, NewAssessmentActivity.class);
+        intent.putExtra("course_id", id);
         startActivity(intent);
     }
 

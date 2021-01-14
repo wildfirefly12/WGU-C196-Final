@@ -60,7 +60,7 @@ public abstract class Database extends RoomDatabase {
                         courseDao.insert(course);
 
                         AssessmentDao assessmentDao = INSTANCE.assessmentDao();
-                        Assessment assessment = new Assessment("test", "test", "test", 1);
+                        Assessment assessment = new Assessment("test", "test", "test", "test",1);
                         assessmentDao.insert(assessment);
 
                         NoteDao noteDao = INSTANCE.noteDao();

@@ -20,8 +20,6 @@ import com.decockwgu196.model.TermViewModel;
 
 import java.util.ArrayList;
 
-import static com.decockwgu196.UpdateTermActivity.FLAG;
-
 public class TermViewActivity extends AppCompatActivity implements CourseAdapter.OnCourseClickListener {
     public static final String TERM_ID = "term_id";
 
@@ -45,9 +43,9 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_view);
 
-        title = findViewById(R.id.termView_title);
-        startDate = findViewById(R.id.termView_startDate);
-        endDate = findViewById(R.id.termView_endDate);
+        title = findViewById(R.id.term_view_title);
+        startDate = findViewById(R.id.term_view_start);
+        endDate = findViewById(R.id.term_view_end);
 
         recyclerView = findViewById(R.id.term_view_course_list);
 
@@ -58,31 +56,14 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
                 .create(TermViewModel.class);
 
         Bundle data = getIntent().getExtras();
-        String previousActivity = getIntent().getExtras().getString(FLAG);
 
         if(data != null){
-            if(previousActivity == "update"){
-                termId = data.getInt(UpdateTermActivity.TERM_ID);
-                termViewModel.get(termId).observe(this, term -> {
-                    title.setText(term.getTitle());
-                    startDate.setText(term.getStartDate());
-                    endDate.setText(term.getEndDate());
-                });
-            } else if(previousActivity == "terms"){
-                termId = data.getInt(TermListActivity.TERM_ID);
-                termViewModel.get(termId).observe(this, term -> {
-                    title.setText(term.getTitle());
-                    startDate.setText(term.getStartDate());
-                    endDate.setText(term.getEndDate());
-                });
-            } else {
-                termId = data.getInt(NewCourseActivity.TERM_ID);
-                termViewModel.get(termId).observe(this, term -> {
-                    title.setText(term.getTitle());
-                    startDate.setText(term.getStartDate());
-                    endDate.setText(term.getEndDate());
-                });
-            }
+            termId = data.getInt("term_id");
+            termViewModel.get(termId).observe(this, term -> {
+                title.setText(term.getTitle());
+                startDate.setText(term.getStartDate());
+                endDate.setText(term.getEndDate());
+            });
         }
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(TermViewActivity.this
@@ -107,7 +88,7 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
         startActivity(intent);
     }
 
-    public void editTermButton(View view){
+    public void editTerm(View view){
         Intent intent = new Intent(this, UpdateTermActivity.class);
         intent.putExtra(TERM_ID, termId);
         startActivity(intent);
@@ -127,11 +108,10 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
     @Override
     public void onCourseClick(int position) {
         Course course = filteredCourses.get(position);
-        System.out.println(course.getCourseId());
 
         Intent intent = new Intent(this, CourseViewActivity.class);
-        intent.putExtra("courseId", course.getCourseId());
-        intent.putExtra(FLAG, "courses");
+        intent.putExtra("course_id", course.getCourseId());
+        intent.putExtra("flag", "courses");
         startActivity(intent);
 
     }

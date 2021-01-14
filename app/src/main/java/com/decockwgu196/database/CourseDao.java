@@ -22,12 +22,12 @@ public interface CourseDao {
     @Query("SELECT * FROM course_table ORDER BY courseId")
     LiveData<List<Course>> getAllCourses();
 
-    @Query("SELECT * FROM course_table WHERE course_table.term_id == :id ORDER BY courseId")
+    @Query("SELECT * FROM course_table WHERE course_table.term_id = :id ORDER BY courseId")
     LiveData<List<Course>> getCoursesByTerm(int id);
 
     @Delete()
     void delete(Course course);
 
-    @Query("SELECT * FROM course_table WHERE course_table.courseId == :id")
+    @Query("SELECT * FROM course_table WHERE course_table.courseId = :id")
     LiveData<Course> get(int id);
 }

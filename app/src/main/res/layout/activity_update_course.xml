@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress AndroidDomInspection -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewCourseActivity">
+    tools:context=".UpdateCourseActivity">
 
     <EditText
-        android:id="@+id/new_assessment_title"
+        android:id="@+id/update_course_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="Title"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/new_course_start"
+        android:id="@+id/update_course_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="MM/DD/YY"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_course_title" />
+
+    <EditText
+        android:id="@+id/update_course_end"
         android:focusableInTouchMode="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,24 +43,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_assessment_title" />
+        app:layout_constraintTop_toBottomOf="@+id/update_course_start" />
 
     <EditText
-        android:id="@+id/new_assessment_end"
-        android:focusableInTouchMode="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="MM/DD/YY"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_course_start" />
-
-    <EditText
-        android:id="@+id/new_course_name"
+        android:id="@+id/update_course_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -58,10 +56,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_assessment_end" />
+        app:layout_constraintTop_toBottomOf="@+id/update_course_end" />
 
     <EditText
-        android:id="@+id/new_course_phone"
+        android:id="@+id/update_course_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -71,10 +69,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_course_name" />
+        app:layout_constraintTop_toBottomOf="@+id/update_course_name" />
 
     <EditText
-        android:id="@+id/new_course_email"
+        android:id="@+id/update_course_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -84,27 +82,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_course_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/update_course_phone" />
 
     <Button
-        android:id="@+id/new_course_submit"
+        android:id="@+id/update_course_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_assessment_end"
+        app:layout_constraintVertical_bias="0.945" />
 
     <Spinner
-        android:id="@+id/new_course_spinner"
+        android:id="@+id/update_course_spinner"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/new_course_submit"
+        app:layout_constraintBottom_toTopOf="@+id/update_course_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_course_email"
+        app:layout_constraintTop_toBottomOf="@+id/update_course_email"
         app:layout_constraintVertical_bias="0.16" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

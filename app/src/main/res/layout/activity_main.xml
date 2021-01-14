@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/main_current_term_btn"
         android:layout_width="158dp"
         android:layout_height="161dp"
         android:layout_marginTop="100dp"
@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/baseline_today_navy_48" />
 
     <TextView
-        android:id="@+id/currentTerm"
+        android:id="@+id/main_current_term_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -29,10 +29,10 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/main_current_term_btn" />
 
     <TextView
-        android:id="@+id/currentTerm2"
+        android:id="@+id/main_all_terms_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -41,10 +41,10 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton3" />
+        app:layout_constraintTop_toBottomOf="@+id/main_all_terms_btn" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/main_all_terms_btn"
         android:layout_width="176dp"
         android:layout_height="154dp"
         android:layout_marginTop="50dp"
@@ -52,7 +52,7 @@
         android:onClick="allTermsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentTerm"
+        app:layout_constraintTop_toBottomOf="@+id/main_current_term_text"
         app:srcCompat="@drawable/baseline_date_range_navy_48" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

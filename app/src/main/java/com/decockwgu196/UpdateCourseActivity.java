@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,29 +15,25 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
-import com.decockwgu196.model.TermViewModel;
 
 import java.util.Calendar;
 
-public class NewCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    public static final String TERM_ID = "term_id";
+public class UpdateCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private CourseViewModel courseViewModel;
-    private TermViewModel termViewModel;
 
     private EditText title;
-    private EditText startDate;
-    private EditText endDate;
+    private EditText start;
+    private EditText end;
     private EditText instructorName;
     private EditText instructorPhone;
     private EditText instructorEmail;
 
-    private Button addCourseBtn;
+    private Button submit;
     private Spinner spinner;
     private String status;
 
@@ -46,23 +41,24 @@ public class NewCourseActivity extends AppCompatActivity implements AdapterView.
     private int month;
     private int year;
 
-    private int id;
+    private int courseId;
+    private int termId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_course);
+        setContentView(R.layout.activity_update_course);
 
-        title = findViewById(R.id.new_assessment_title);
-        startDate = findViewById(R.id.new_course_start);
-        endDate = findViewById(R.id.new_assessment_end);
-        instructorName = findViewById(R.id.new_course_name);
-        instructorPhone = findViewById(R.id.new_course_phone);
-        instructorEmail = findViewById(R.id.new_course_email);
-        addCourseBtn = findViewById(R.id.new_course_submit);
+        title = findViewById(R.id.update_course_title);
+        start = findViewById(R.id.update_course_start);
+        end = findViewById(R.id.update_course_end);
+        instructorName = findViewById(R.id.update_course_name);
+        instructorPhone = findViewById(R.id.update_course_phone);
+        instructorEmail = findViewById(R.id.update_course_email);
+        submit = findViewById(R.id.update_course_submit);
 
 
-        spinner = findViewById(R.id.new_course_spinner);
+        spinner = findViewById(R.id.update_course_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -70,21 +66,29 @@ public class NewCourseActivity extends AppCompatActivity implements AdapterView.
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        termViewModel = new ViewModelProvider.AndroidViewModelFactory(NewCourseActivity.this
-                .getApplication())
-                .create(TermViewModel.class);
-
-        Bundle data = getIntent().getExtras();
-        String previousActivity = getIntent().getExtras().getString("flag");
-
-        if(data != null){
-            id = data.getInt(TermViewActivity.TERM_ID);
-        }
-
-        courseViewModel = new ViewModelProvider.AndroidViewModelFactory(NewCourseActivity.this.getApplication())
+        courseViewModel = new ViewModelProvider.AndroidViewModelFactory(UpdateCourseActivity.this.getApplication())
                 .create(CourseViewModel.class);
 
-        startDate.setOnClickListener(new View.OnClickListener() {
+        courseViewModel = new ViewModelProvider.AndroidViewModelFactory(UpdateCourseActivity.this
+                .getApplication())
+                .create(CourseViewModel.class);
+
+        Bundle data = getIntent().getExtras();
+        if(data != null){
+            courseId = data.getInt("course_id");
+            courseViewModel.get(courseId).observe(this, course -> {
+                title.setText(course.getTitle());
+                start.setText(course.getStartDate());
+                end.setText(course.getEndDate());
+                instructorName.setText(course.getInstructor());
+                instructorPhone.setText(course.getPhone());
+                instructorEmail.setText(course.getEmail());
+                termId = course.getTermId();
+            });
+
+        }
+
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar calendar = Calendar.getInstance();
@@ -92,18 +96,18 @@ public class NewCourseActivity extends AppCompatActivity implements AdapterView.
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(NewCourseActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateCourseActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-                        startDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        start.setText(month + "/" + dayOfMonth + "/" + year);
                     }
                 }, year, month, date);
                 datePickerDialog.show();
             }
         });
 
-        endDate.setOnClickListener(new View.OnClickListener() {
+        end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar calendar = Calendar.getInstance();
@@ -111,42 +115,30 @@ public class NewCourseActivity extends AppCompatActivity implements AdapterView.
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(NewCourseActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateCourseActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-                        endDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        end.setText(month + "/" + dayOfMonth + "/" + year);
                     }
                 }, year, month, date);
                 datePickerDialog.show();
             }
         });
 
-        addCourseBtn.setOnClickListener(view -> {
-            if(TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(startDate.getText()) || TextUtils.isEmpty(endDate.getText()) || TextUtils.isEmpty(instructorName.getText()) || TextUtils.isEmpty(instructorPhone.getText()) || TextUtils.isEmpty(instructorEmail.getText())){
+        submit.setOnClickListener(view -> {
+            if(TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(start.getText()) || TextUtils.isEmpty(end.getText())){
                 Context context = getApplicationContext();
                 Toast.makeText(context, "Please fill out missing info.", Toast.LENGTH_SHORT).show();
             } else {
-                Course course = new Course(title.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), status, instructorName.getText().toString(), instructorPhone.getText().toString(), instructorEmail.getText().toString(), id);
-                CourseViewModel.insert(course);
+                Course course = new Course(title.getText().toString(), start.getText().toString(), end.getText().toString(), status, instructorName.getText().toString(), instructorPhone.getText().toString(), instructorEmail.getText().toString(), termId);
+                course.setCourseId(courseId);
+                CourseViewModel.update(course);
                 Intent intent = new Intent(this, TermViewActivity.class);
-                intent.putExtra(TERM_ID, id);
-                intent.putExtra("flag", "course");
+                intent.putExtra("course_id", course.getCourseId());
                 startActivity(intent);
-                finish();
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -156,5 +148,6 @@ public class NewCourseActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

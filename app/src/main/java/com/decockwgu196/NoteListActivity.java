@@ -1,6 +1,8 @@
 package com.decockwgu196;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import com.decockwgu196.model.Note;
 import com.decockwgu196.model.NoteViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NoteListActivity extends AppCompatActivity implements NoteAdapter.OnNoteClickListener{
     CourseViewModel courseViewModel;
@@ -22,13 +25,11 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
     private NoteAdapter noteAdapter;
 
     TextView title;
-    TextView text;
     RecyclerView recyclerView;
-
 
     ArrayList<Note> filteredNotes = new ArrayList<>();
 
-    int id; //course id
+    private int courseId; //course courseId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +37,11 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
         setContentView(R.layout.activity_note_list);
 
         title = findViewById(R.id.note_view_title);
-        text = findViewById(R.id.note_view_text);
         recyclerView = findViewById(R.id.note_list);
 
         Bundle data = getIntent().getExtras();
         if(data != null){
-            id = data.getInt("course_id");
+            courseId = data.getInt("course_id");
         }
 
         noteViewModel = new ViewModelProvider.AndroidViewModelFactory(NoteListActivity.this
@@ -50,7 +50,7 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
 
         noteViewModel.getAllNotes().observe(this, notes -> {
             for(Note note : notes){
-                if (note.getCourseId() == id) {
+                if (note.getCourseId() == courseId) {
                     filteredNotes.add(note);
                 }
             }
@@ -62,6 +62,15 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
 
     @Override
     public void onNoteClick(int position) {
+        Note note = Objects.requireNonNull(noteViewModel.allNotes.getValue()).get(position);
+        Intent intent = new Intent(this, NoteViewActivity.class);
+        intent.putExtra("note_id", note.getId());
+        startActivity(intent);
+    }
 
+    public void newNote(View view){
+        Intent intent = new Intent(this, NewNoteActivity.class);
+        intent.putExtra("course_id", courseId);
+        startActivity(intent);
     }
 }

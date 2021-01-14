@@ -8,7 +8,7 @@
     tools:context=".TermViewActivity">
 
     <TextView
-        android:id="@+id/termView_title"
+        android:id="@+id/term_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -21,28 +21,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/termView_startDate"
+        android:id="@+id/term_view_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/termView_title" />
+        app:layout_constraintTop_toBottomOf="@+id/term_view_title" />
 
     <TextView
-        android:id="@+id/termView_endDate"
+        android:id="@+id/term_view_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/termView_title" />
+        app:layout_constraintStart_toEndOf="@+id/term_view_dash"
+        app:layout_constraintTop_toBottomOf="@+id/term_view_title" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/termView_addBtn"
+        android:id="@+id/term_view_add_course"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -54,31 +54,31 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/term_view_dash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="-"
-        app:layout_constraintStart_toEndOf="@+id/termView_startDate"
-        app:layout_constraintTop_toBottomOf="@+id/termView_title" />
+        app:layout_constraintStart_toEndOf="@+id/term_view_start"
+        app:layout_constraintTop_toBottomOf="@+id/term_view_title" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/term_view_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="#00FFFFFF"
         android:onClick="editTermButton"
-        app:layout_constraintStart_toEndOf="@+id/termView_title"
+        app:layout_constraintStart_toEndOf="@+id/term_view_title"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="540dp"
-        app:layout_constraintTop_toBottomOf="@+id/termView_title"
+        app:layout_constraintTop_toBottomOf="@+id/term_view_title"
         android:layout_marginTop="40dp"
         tools:layout_editor_absoluteX="203dp"
         tools:layout_editor_absoluteY="607dp">
@@ -87,7 +87,7 @@
             android:id="@+id/term_view_course_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/termView_title"
+            app:layout_constraintTop_toBottomOf="@+id/term_view_title"
             tools:layout_editor_absoluteX="0dp"
             android:nestedScrollingEnabled="true"/>
 

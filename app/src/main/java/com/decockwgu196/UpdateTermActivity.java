@@ -19,8 +19,6 @@ import com.decockwgu196.model.TermViewModel;
 import java.util.Calendar;
 
 public class UpdateTermActivity extends AppCompatActivity {
-    public static final String TERM_ID = "term_id";
-    public static final String FLAG = "flag";
     TermViewModel termViewModel;
 
     EditText title;
@@ -100,8 +98,8 @@ public class UpdateTermActivity extends AppCompatActivity {
                 term.setId(id);
                 TermViewModel.update(term);
                 Intent intent = new Intent(this, TermViewActivity.class);
-                intent.putExtra(TERM_ID, term.getId());
-                intent.putExtra(FLAG, "update");
+                intent.putExtra("term_id", term.getId());
+                intent.putExtra("flag", "update");
                 startActivity(intent);
             }
         });
