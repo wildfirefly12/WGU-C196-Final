@@ -1,10 +1,14 @@
 package com.decockwgu196;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.decockwgu196.adapter.AssessmentAdapter;
 import com.decockwgu196.model.Assessment;
 import com.decockwgu196.model.AssessmentViewModel;
-import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class CourseViewActivity extends AppCompatActivity implements AssessmentAdapter.OnAssessmentClickListener {
@@ -34,8 +38,8 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
     ArrayList<Assessment> filteredAssessments = new ArrayList<>();
 
-    private Course course;
     private int id; //course courseId
+    private int termId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,11 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
         status = findViewById(R.id.course_view_status);
 
         recyclerView = findViewById(R.id.course_view_assessments);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Course");
+        actionBar.show();
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(CourseViewActivity.this
                 .getApplication())
@@ -62,7 +71,7 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
                 start.setText(course.getStartDate());
                 end.setText(course.getEndDate());
                 status.setText(course.getStatus());
-                this.course = course;
+                termId = course.getTermId();
             });
         }
 
@@ -85,15 +94,37 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent intent = new Intent(this, CourseViewActivity.class);
+                intent.putExtra("term_id", termId);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void editCourse(View view){
         Intent intent = new Intent(this, UpdateCourseActivity.class);
         intent.putExtra("course_id", id);
-        intent.putExtra("term_id", course.getTermId());
+        intent.putExtra("term_id", termId);
         startActivity(intent);
     }
 
     public void deleteCourse(View view){
-
+        if (filteredAssessments.size() == 0) {
+            courseViewModel.get(id).observe(this, course -> {
+                CourseViewModel.delete(course);
+            });
+            Intent intent = new Intent(this, TermViewActivity.class);
+            intent.putExtra("term_id", termId);
+            startActivity(intent);
+        } else {
+            Context context = getApplicationContext();
+            Toast.makeText(context, "Please delete all assessments first.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void notes(View view){
@@ -110,6 +141,9 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
     @Override
     public void onAssessmentClick(int position) {
-
+        Assessment assessment = Objects.requireNonNull(assessmentViewModel.allAssessments.getValue()).get(position);
+        Intent intent = new Intent(this, AssessmentViewActivity.class);
+        intent.putExtra("assessment_id", assessment.getId());
+        startActivity(intent);
     }
 }

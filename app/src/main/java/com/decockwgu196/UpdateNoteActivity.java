@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.decockwgu196.model.CourseViewModel;
@@ -35,7 +38,10 @@ public class UpdateNoteActivity extends AppCompatActivity {
         text = findViewById(R.id.update_note_text);
         submit = findViewById(R.id.update_note_submit);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Update Note");
+        actionBar.show();
 
         noteViewModel = new ViewModelProvider.AndroidViewModelFactory(UpdateNoteActivity.this.getApplication())
                 .create(NoteViewModel.class);
@@ -64,5 +70,16 @@ public class UpdateNoteActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

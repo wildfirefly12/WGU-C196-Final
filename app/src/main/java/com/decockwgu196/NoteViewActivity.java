@@ -2,10 +2,12 @@ package com.decockwgu196;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,6 +22,7 @@ public class NoteViewActivity extends AppCompatActivity {
     ImageButton delete;
 
     private int id;
+    private int courseId;
 
 
     @Override
@@ -32,6 +35,11 @@ public class NoteViewActivity extends AppCompatActivity {
         edit = findViewById(R.id.note_view_edit);
         delete = findViewById(R.id.note_view_delete);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Note");
+        actionBar.show();
+
         noteViewModel = new ViewModelProvider.AndroidViewModelFactory(NoteViewActivity.this
                 .getApplication())
                 .create(NoteViewModel.class);
@@ -43,8 +51,21 @@ public class NoteViewActivity extends AppCompatActivity {
             noteViewModel.get(id).observe(this, note -> {
                 title.setText(note.getTitle());
                 text.setText(note.getText());
+                courseId = note.getCourseId();
             });
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent intent = new Intent(this, CourseViewActivity.class);
+                intent.putExtra("course_id", courseId);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void editNote(View view){
@@ -59,5 +80,6 @@ public class NoteViewActivity extends AppCompatActivity {
         });
         Intent intent = new Intent(this, NoteListActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.decockwgu196.model.Term;
@@ -39,6 +42,11 @@ public class NewTermActivity extends AppCompatActivity {
         startDate = findViewById(R.id.new_term_start);
         endDate = findViewById(R.id.new_term_end);
         addTermBtn = findViewById(R.id.new_term_submit);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Add Term");
+        actionBar.show();
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(NewTermActivity.this.getApplication())
                 .create(TermViewModel.class);
@@ -86,5 +94,16 @@ public class NewTermActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

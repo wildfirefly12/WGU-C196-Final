@@ -132,6 +132,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="#00FFFFFF"
+        android:onClick="deleteCourse"
         app:layout_constraintStart_toEndOf="@+id/course_view_edit"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_delete" />

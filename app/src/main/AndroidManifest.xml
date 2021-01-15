@@ -9,14 +9,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WGU196">
-        <activity android:name=".UpdateNoteActivity"></activity>
-        <activity android:name=".NoteViewActivity" />
-        <activity android:name=".NewNoteActivity" />
-        <activity android:name=".UpdateCourseActivity" />
-        <activity android:name=".NewAssessmentActivity" />
-        <activity android:name=".NoteListActivity" />
-        <activity android:name=".CourseViewActivity" />
-        <activity android:name=".UpdateTermActivity" />
+        <activity
+            android:name=".UpdateAssessmentActivity"
+            android:parentActivityName=".AssessmentViewActivity"></activity>
+        <activity
+            android:name=".AssessmentViewActivity"
+            android:parentActivityName=".CourseViewActivity" />
+        <activity
+            android:name=".UpdateNoteActivity"
+            android:parentActivityName=".NoteViewActivity" />
+        <activity
+            android:name=".NoteViewActivity"
+            android:parentActivityName=".NoteViewActivity" />
+        <activity
+            android:name=".NewNoteActivity"
+            android:parentActivityName=".NoteListActivity" />
+        <activity
+            android:name=".UpdateCourseActivity"
+            android:parentActivityName=".CourseViewActivity" />
+        <activity
+            android:name=".NewAssessmentActivity"
+            android:parentActivityName=".CourseViewActivity" />
+        <activity
+            android:name=".NoteListActivity"
+            android:parentActivityName=".NoteListActivity" />
+        <activity
+            android:name=".CourseViewActivity"
+            android:parentActivityName=".TermViewActivity" />
+        <activity
+            android:name=".UpdateTermActivity"
+            android:parentActivityName=".TermViewActivity" />
         <activity
             android:name=".NewCourseActivity"
             android:parentActivityName=".TermViewActivity" />

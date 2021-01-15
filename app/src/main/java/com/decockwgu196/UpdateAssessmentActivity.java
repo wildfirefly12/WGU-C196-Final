@@ -20,78 +20,63 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.decockwgu196.model.Course;
-import com.decockwgu196.model.CourseViewModel;
+import com.decockwgu196.model.Assessment;
+import com.decockwgu196.model.AssessmentViewModel;
 
 import java.util.Calendar;
 
-public class UpdateCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
-    private CourseViewModel courseViewModel;
+public class UpdateAssessmentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    private AssessmentViewModel assessmentViewModel;
 
     private EditText title;
     private EditText start;
     private EditText end;
-    private EditText instructorName;
-    private EditText instructorPhone;
-    private EditText instructorEmail;
-
-    private Button submit;
+    private String type;
     private Spinner spinner;
-    private String status;
+    private Button submit;
 
     private int date;
     private int month;
     private int year;
 
+    private int id;
     private int courseId;
-    private int termId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_course);
+        setContentView(R.layout.activity_update_assessment);
 
-        title = findViewById(R.id.update_course_title);
-        start = findViewById(R.id.update_course_start);
-        end = findViewById(R.id.update_course_end);
-        instructorName = findViewById(R.id.update_course_name);
-        instructorPhone = findViewById(R.id.update_course_phone);
-        instructorEmail = findViewById(R.id.update_course_email);
-        submit = findViewById(R.id.update_course_submit);
+        title = findViewById(R.id.update_assessment_title);
+        start = findViewById(R.id.update_assessment_start);
+        end = findViewById(R.id.update_assessment_end);
+        submit = findViewById(R.id.update_assessment_button);
 
-
-        spinner = findViewById(R.id.update_course_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
+        spinner = findViewById(R.id.update_assessment_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.assessment_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Update Course");
+        actionBar.setTitle("Update Assessment");
         actionBar.show();
 
-        courseViewModel = new ViewModelProvider.AndroidViewModelFactory(UpdateCourseActivity.this.getApplication())
-                .create(CourseViewModel.class);
-
-        courseViewModel = new ViewModelProvider.AndroidViewModelFactory(UpdateCourseActivity.this
-                .getApplication())
-                .create(CourseViewModel.class);
+        assessmentViewModel = new ViewModelProvider.AndroidViewModelFactory(UpdateAssessmentActivity.this.getApplication())
+                .create(AssessmentViewModel.class);
 
         Bundle data = getIntent().getExtras();
-        if(data != null){
-            courseId = data.getInt("course_id");
-            courseViewModel.get(courseId).observe(this, course -> {
-                title.setText(course.getTitle());
-                start.setText(course.getStartDate());
-                end.setText(course.getEndDate());
-                instructorName.setText(course.getInstructor());
-                instructorPhone.setText(course.getPhone());
-                instructorEmail.setText(course.getEmail());
-                termId = course.getTermId();
-            });
 
+        if (data != null) {
+            id = data.getInt("assessment_id");
+            assessmentViewModel.get(id).observe(this, assessment -> {
+               title.setText(assessment.getTitle());
+               start.setText(assessment.getStartDate());
+               end.setText(assessment.getEndDate());
+               type = assessment.getType();
+               courseId = assessment.getCourseId();
+            });
         }
 
         start.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +87,7 @@ public class UpdateCourseActivity extends AppCompatActivity implements AdapterVi
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateCourseActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateAssessmentActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
@@ -121,7 +106,7 @@ public class UpdateCourseActivity extends AppCompatActivity implements AdapterVi
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateCourseActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateAssessmentActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
@@ -133,16 +118,17 @@ public class UpdateCourseActivity extends AppCompatActivity implements AdapterVi
         });
 
         submit.setOnClickListener(view -> {
-            if(TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(start.getText()) || TextUtils.isEmpty(end.getText())){
+            if (TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(start.getText()) || TextUtils.isEmpty(end.getText()) || TextUtils.isEmpty(type)) {
                 Context context = getApplicationContext();
                 Toast.makeText(context, "Please fill out missing info.", Toast.LENGTH_SHORT).show();
             } else {
-                Course course = new Course(title.getText().toString(), start.getText().toString(), end.getText().toString(), status, instructorName.getText().toString(), instructorPhone.getText().toString(), instructorEmail.getText().toString(), termId);
-                course.setCourseId(courseId);
-                CourseViewModel.update(course);
-                Intent intent = new Intent(this, TermViewActivity.class);
-                intent.putExtra("course_id", course.getCourseId());
+                Assessment assessment = new Assessment(title.getText().toString(), start.getText().toString(), end.getText().toString(), type, courseId);
+                assessment.setId(id);
+                AssessmentViewModel.update(assessment);
+                Intent intent = new Intent(this, AssessmentViewActivity.class);
+                intent.putExtra("assessment_id", id);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -160,7 +146,7 @@ public class UpdateCourseActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        status = parent.getItemAtPosition(position).toString();
+        type = parent.getItemAtPosition(position).toString();
     }
 
     @Override

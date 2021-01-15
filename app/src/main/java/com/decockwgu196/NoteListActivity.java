@@ -2,10 +2,13 @@ package com.decockwgu196;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +42,11 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
         title = findViewById(R.id.note_view_title);
         recyclerView = findViewById(R.id.note_list);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Notes");
+        actionBar.show();
+
         Bundle data = getIntent().getExtras();
         if(data != null){
             courseId = data.getInt("course_id");
@@ -61,6 +69,17 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onNoteClick(int position) {
         Note note = Objects.requireNonNull(noteViewModel.allNotes.getValue()).get(position);
         Intent intent = new Intent(this, NoteViewActivity.class);
@@ -73,4 +92,6 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
         intent.putExtra("course_id", courseId);
         startActivity(intent);
     }
+
+
 }

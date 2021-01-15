@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.decockwgu196.model.CourseViewModel;
@@ -23,7 +26,7 @@ public class NewNoteActivity extends AppCompatActivity {
     private EditText text;
     private Button submit;
 
-    private int id;
+    private int courseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +37,15 @@ public class NewNoteActivity extends AppCompatActivity {
         text = findViewById(R.id.new_note_text);
         submit = findViewById(R.id.new_note_submit);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Add Note");
+        actionBar.show();
 
         Bundle data = getIntent().getExtras();
 
         if(data != null){
-            id = data.getInt("course_id");
+            courseId = data.getInt("course_id");
         }
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(NewNoteActivity.this.getApplication())
@@ -50,14 +56,25 @@ public class NewNoteActivity extends AppCompatActivity {
                 Context context = getApplicationContext();
                 Toast.makeText(context, "Please fill out missing info.", Toast.LENGTH_SHORT).show();
             } else {
-                Note note = new Note(title.getText().toString(), text.getText().toString(), id);
+                Note note = new Note(title.getText().toString(), text.getText().toString(), courseId);
                 NoteViewModel.insert(note);
-                Intent intent = new Intent(this, TermViewActivity.class);
-                intent.putExtra("course_id", id);
+                Intent intent = new Intent(this, NoteListActivity.class);
+                intent.putExtra("course_id", courseId);
                 startActivity(intent);
                 finish();
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

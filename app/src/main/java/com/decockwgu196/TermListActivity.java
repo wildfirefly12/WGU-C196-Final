@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,6 +33,11 @@ public class TermListActivity extends AppCompatActivity implements TermsAdapter.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.term_list_terms);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Terms");
+        actionBar.show();
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(TermListActivity.this
                 .getApplication())

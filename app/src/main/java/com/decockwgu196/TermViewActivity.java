@@ -1,12 +1,15 @@
 package com.decockwgu196;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,7 +52,10 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
 
         recyclerView = findViewById(R.id.term_view_course_list);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Term");
+        actionBar.show();
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(TermViewActivity.this
                 .getApplication())
@@ -92,6 +98,19 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
         Intent intent = new Intent(this, UpdateTermActivity.class);
         intent.putExtra(TERM_ID, termId);
         startActivity(intent);
+    }
+
+    public void deleteTerm(View view){
+        if (filteredCourses.size() == 0) {
+            termViewModel.get(termId).observe(this, term -> {
+                TermViewModel.delete(term);
+            });
+            Intent intent = new Intent(this, TermListActivity.class);
+            startActivity(intent);
+        } else {
+            Context context = getApplicationContext();
+            Toast.makeText(context, "Please delete all assessments first.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
