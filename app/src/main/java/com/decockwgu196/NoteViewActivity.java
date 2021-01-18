@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.decockwgu196.model.Note;
 import com.decockwgu196.model.NoteViewModel;
 
 public class NoteViewActivity extends AppCompatActivity {
@@ -18,11 +21,13 @@ public class NoteViewActivity extends AppCompatActivity {
 
     TextView title;
     TextView text;
-    ImageButton edit;
-    ImageButton delete;
+    ImageButton share;
 
+    private Note note;
     private int id;
     private int courseId;
+    private Observer<Note> noteObserver;
+    private LiveData<Note> noteLiveData;
 
 
     @Override
@@ -32,8 +37,7 @@ public class NoteViewActivity extends AppCompatActivity {
 
         title = findViewById(R.id.note_view_title);
         text = findViewById(R.id.note_view_text);
-        edit = findViewById(R.id.note_view_edit);
-        delete = findViewById(R.id.note_view_delete);
+        share = findViewById(R.id.note_view_share);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -48,12 +52,27 @@ public class NoteViewActivity extends AppCompatActivity {
 
         if(data != null){
             id = getIntent().getExtras().getInt("note_id");
-            noteViewModel.get(id).observe(this, note -> {
+            noteObserver = note -> {
                 title.setText(note.getTitle());
                 text.setText(note.getText());
                 courseId = note.getCourseId();
-            });
+                this.note = note;
+            };
+            noteLiveData = noteViewModel.get(id);
+            noteLiveData.observe(this, noteObserver);
         }
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
+                intent.putExtra(Intent.EXTRA_TEXT, note.getText());
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -75,11 +94,11 @@ public class NoteViewActivity extends AppCompatActivity {
     }
 
     public void deleteNote(View view){
-        noteViewModel.get(id).observe(this, note -> {
-            NoteViewModel.delete(note);
-        });
+        noteLiveData.removeObservers(this);
+        noteViewModel.delete(note);
         Intent intent = new Intent(this, NoteListActivity.class);
+        intent.putExtra("course_id", courseId);
         startActivity(intent);
-        finish();
     }
+
 }

@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.decockwgu196.model.Assessment;
 import com.decockwgu196.model.AssessmentViewModel;
 
 public class AssessmentViewActivity extends AppCompatActivity {
@@ -25,7 +28,11 @@ public class AssessmentViewActivity extends AppCompatActivity {
     ImageButton delete;
 
     private int id;
+    private Assessment assessment;
     private int courseId;
+
+    private Observer<Assessment> assessmentObserver;
+    private LiveData<Assessment> assessmentLiveData;
 
 
     @Override
@@ -53,13 +60,16 @@ public class AssessmentViewActivity extends AppCompatActivity {
 
         if(data != null){
             id = getIntent().getExtras().getInt("assessment_id");
-            assessmentViewModel.get(id).observe(this, assessment -> {
+            assessmentObserver = assessment -> {
                 title.setText(assessment.getTitle());
                 start.setText(assessment.getStartDate());
                 end.setText(assessment.getEndDate());
                 type.setText(assessment.getType());
                 courseId = assessment.getCourseId();
-            });
+                this.assessment = assessment;
+            };
+            assessmentLiveData = assessmentViewModel.get(id);
+            assessmentLiveData.observe(this, assessmentObserver);
         }
     }
 
@@ -82,12 +92,10 @@ public class AssessmentViewActivity extends AppCompatActivity {
     }
 
     public void deleteAssessment(View view){
-        assessmentViewModel.get(id).observe(this, assessment -> {
-            AssessmentViewModel.delete(assessment);
-        });
+        assessmentLiveData.removeObservers(this);
+        assessmentViewModel.delete(assessment);
         Intent intent = new Intent(this, CourseViewActivity.class);
         intent.putExtra("course_id", courseId);
-        intent.putExtra("assessment_id", id);
         startActivity(intent);
     }
 }

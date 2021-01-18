@@ -68,6 +68,7 @@ public class NoteListActivity extends AppCompatActivity implements NoteAdapter.O
         });
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

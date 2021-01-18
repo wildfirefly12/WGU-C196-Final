@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.decockwgu196.adapter.AssessmentAdapter;
 import com.decockwgu196.model.Assessment;
 import com.decockwgu196.model.AssessmentViewModel;
+import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
 
 import java.util.ArrayList;
@@ -39,7 +42,11 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
     ArrayList<Assessment> filteredAssessments = new ArrayList<>();
 
     private int id; //course courseId
+    private Course course;
     private int termId;
+
+    private Observer<Course> courseObserver;
+    private LiveData<Course> courseLiveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +73,16 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
         if(data != null){
             id = getIntent().getExtras().getInt("course_id");
-            courseViewModel.get(id).observe(this, course -> {
+            courseObserver = course -> {
                 title.setText(course.getTitle());
                 start.setText(course.getStartDate());
                 end.setText(course.getEndDate());
                 status.setText(course.getStatus());
                 termId = course.getTermId();
-            });
+                this.course = course;
+            };
+            courseLiveData = courseViewModel.get(id);
+            courseLiveData.observe(this, courseObserver);
         }
 
 
@@ -115,9 +125,8 @@ public class CourseViewActivity extends AppCompatActivity implements AssessmentA
 
     public void deleteCourse(View view){
         if (filteredAssessments.size() == 0) {
-            courseViewModel.get(id).observe(this, course -> {
-                CourseViewModel.delete(course);
-            });
+            courseLiveData.removeObservers(this);
+            courseViewModel.delete(course);
             Intent intent = new Intent(this, TermViewActivity.class);
             intent.putExtra("term_id", termId);
             startActivity(intent);

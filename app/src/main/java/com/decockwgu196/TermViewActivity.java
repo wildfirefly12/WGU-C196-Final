@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.decockwgu196.adapter.CourseAdapter;
 import com.decockwgu196.model.Course;
 import com.decockwgu196.model.CourseViewModel;
+import com.decockwgu196.model.Term;
 import com.decockwgu196.model.TermViewModel;
 
 import java.util.ArrayList;
@@ -36,10 +39,13 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
 
     private CourseViewModel courseViewModel;
     private TermViewModel termViewModel;
-
     private CourseAdapter courseAdapter;
 
     int termId; //term courseId from TermListView
+    private Term term;
+
+    private Observer<Term> termObserver;
+    private LiveData<Term> termLiveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +71,15 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
 
         if(data != null){
             termId = data.getInt("term_id");
-            termViewModel.get(termId).observe(this, term -> {
+            termObserver = term -> {
                 title.setText(term.getTitle());
                 startDate.setText(term.getStartDate());
                 endDate.setText(term.getEndDate());
-            });
+                this.term = term;
+            };
+            termLiveData = termViewModel.get(termId);
+            termLiveData.observe(this, termObserver);
+
         }
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(TermViewActivity.this
@@ -102,9 +112,8 @@ public class TermViewActivity extends AppCompatActivity implements CourseAdapter
 
     public void deleteTerm(View view){
         if (filteredCourses.size() == 0) {
-            termViewModel.get(termId).observe(this, term -> {
-                TermViewModel.delete(term);
-            });
+            termLiveData.removeObservers(this);
+            termViewModel.delete(term);
             Intent intent = new Intent(this, TermListActivity.class);
             startActivity(intent);
         } else {

@@ -65,4 +65,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_delete" />
 
+    <ImageButton
+        android:id="@+id/note_view_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/note_view_delete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/actionModeShareDrawable" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
